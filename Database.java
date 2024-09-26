@@ -58,8 +58,76 @@ public class Database {
             System.out.println("Please select: [S,T,B,G,A,I, or Q]. ");
             inputString = inputScanner.nextLine();
             String[] splitStr = inputString.split("\\s");
+            String cmd = splitStr[0];
+            switch(cmd) {
+                // Quit command
+                case "Q":
+                case "Quit":
+                    break;
+                    // Info command
+                case "I":
+                case "Info":
+                    for (int i = 0; i < 7; i++) {
+                        System.out.println("Students in grade" + i + ": " + totalNumberOfStudentsInGrade(i));
+                    }
+                    // Student command
+                case "S":
+                case "Student":
+                    if (splitStr.length == 1 || splitStr[1] == null) {
+                        System.out.println("Invalid Parameters: Student last name required.");
+                        continue;
+                    }
+
+                    if (splitStr.length == 2) {
+                        ArrayList<String[]> result = getGradeClassroomTeacher(splitStr[1]);
+                        for (String[] student : result) {
+                            System.out.println("Student last name: ");
+                        }
+                    }
+                    //If Bus Number is included
+                    else if (splitStr.length == 3) {
+
+                        int busNo = Integer.parseInt(splitStr[2]);
+                        System.out.println("Bussy");
+                        if (busNo == 0) {
+                            System.out.println("Invalid Bus Number.");
+                        }}
+                    else { //Call Function with bus number included
+
+                        System.out.println("Error - invalid number of arguments");
+                    }
+                case "T":
+                case "Teacher":
+                    if (splitStr[1] == null) {
+                        System.out.println("Invalid Parameters: Student last name required.");
+                        continue;
+                    }
+                //Bus Option
+                else if (splitStr[0].equals("B") || splitStr[0].equals("Bus")) {
+                    if (splitStr[1] == null) {
+                        System.out.println("Invalid Parameters: Bus number required.");
+                        continue;
+                    }
+                }
+                //Grade Option
+                else if (splitStr[0].equals("G") || splitStr[0].equals("Grade")) {
+                    if (splitStr[1] == null) {
+                        System.out.println("Invalid Parameters: Grade required.");
+                        continue;
+                    }
+                }
+                //Average Option
+                else if (splitStr[0].equals("A") || splitStr[0].equals("Average")) {
+                    if (splitStr[1] == null) {
+                        System.out.println("Invalid Parameters: Grade required.");
+                        continue;
+                    }
+                }
+                    default:
+                    System.out.println("Error - Invalid command");
+            }
             // Quit Option
-            if (splitStr[0].equals("Q") || splitStr[0].equals("QUIT")) {
+      /*      if (splitStr[0].equals("Q") || splitStr[0].equals("QUIT")) {
                 break;
             }
             //Info Option
@@ -132,7 +200,7 @@ public class Database {
             else   {
                 System.out.println("Invalid Option. ");
 
-            }
+            } */
 
         }
 
