@@ -32,6 +32,69 @@ public class Database {
         }
         return null;
     }
+    public static ArrayList<String[]> Grade(String grade, int option) {
+        File datafile = new File("students.txt");
+        ArrayList<String[]> result = new ArrayList<>();
+        try {
+            Scanner fileScanner = new Scanner(datafile);
+            if (option == 1) {
+                while (fileScanner.hasNext()) {
+
+                    String data = fileScanner.nextLine();
+                    String[] splitData = data.split(",");
+                    if (splitData[2].equalsIgnoreCase(grade)) {
+
+                        String current[] = {splitData[0], splitData[1]};
+                        result.add(current);
+
+                        }
+                    }
+                }
+            else if (option == 2) {
+                double gpa = -1;
+                while (fileScanner.hasNext()) {
+
+                    String data = fileScanner.nextLine();
+                    String[] splitData = data.split(",");
+                    double newGpa = Double.parseDouble(splitData[5]);
+                    if (splitData[2].equalsIgnoreCase(grade) && newGpa > gpa) {
+
+                        String current[] = {splitData[0], splitData[1], splitData[2], splitData[3],
+                                            splitData[4], splitData[5], splitData[6], splitData[7]};
+                        if (result.isEmpty()) {
+                            result.add(current);  // Add the first element
+                        } else {
+                            result.set(0, current);  // Replace the element at index 0
+                        }                        gpa = newGpa;
+                    }
+                }
+            }
+            else if (option == 3) {
+                double gpa = 100.0;
+                while (fileScanner.hasNext()) {
+
+                    String data = fileScanner.nextLine();
+                    String[] splitData = data.split(",");
+                    double newGpa = Double.parseDouble(splitData[5]);
+                    if (splitData[2].equalsIgnoreCase(grade) && newGpa < gpa) {
+
+                        String current[] = {splitData[0], splitData[1], splitData[2], splitData[3],
+                                splitData[4], splitData[5], splitData[6], splitData[7]};
+                        if (result.isEmpty()) {
+                            result.add(current);  // Add the first element
+                        } else {
+                            result.set(0, current);  // Replace the element at index 0
+                        }                        gpa = newGpa;
+                    }
+                }
+            }
+
+            return result;
+        } catch (FileNotFoundException ex) {
+            System.out.println("Error opening file");
+        }
+        return null;
+    }
 
     public static int totalNumberOfStudentsInGrade(int grade) {
         File datafile = new File("students.txt");
@@ -66,12 +129,12 @@ public class Database {
                 // Quit command
                 case "Q":
                 case "Quit":
-                    break;
-                // Info command
+                    System.out.println("Exiting Program...");
+                    return;                // Info command
                 case "I":
                 case "Info":
                     for (int i = 0; i < 7; i++) {
-                        System.out.println("Students in grade" + i + ": " + totalNumberOfStudentsInGrade(i));
+                        System.out.println("Students in grade " + i + ": " + totalNumberOfStudentsInGrade(i));
                     }
                     continue;
                     // Student command
@@ -137,7 +200,38 @@ public class Database {
                             continue;
                         }
                     }
-                    continue;
+                case "G":
+                case "Grade":
+                    if (splitStr.length < 2) {
+                        System.out.println("Invalid Parameters: Grade required.");
+                        continue;
+                    }
+                    //Option 1: No 2nd param;   Option 2: High;   Option 3: Low
+                    int option = 1;
+
+                    if (splitStr.length > 2) {
+                        if (splitStr[2].equals("H") || splitStr[2].equals("High")) {
+                            option = 2;
+                        }
+                        else if (splitStr[2].equals("L") || splitStr[2].equals("Low")) {
+                            option = 3;
+                        }
+
+                    }
+                    ArrayList<String[]> result = Grade(splitStr[1], option);
+                    for (String[] grade : result) {
+                        for (int i = 0; i < grade.length; i++) {
+                            System.out.print(grade[i]);
+                            if (i < grade.length - 1) {
+                                System.out.print(", ");
+                            }
+                        }
+                        System.out.println("");
+
+                    }
+
+
+                        continue;
                 default:
                     System.out.println("Error - Invalid command");
             }
