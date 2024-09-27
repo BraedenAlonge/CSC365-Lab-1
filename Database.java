@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 
 public class Database {
-    public static ArrayList<String[]> getGradeClassroomTeacher(String lastname) {
+    public static ArrayList<String[]> StudentCmd(String lastname, boolean busOption) {
         File datafile = new File("students.txt");
         ArrayList<String[]> result = new ArrayList<>();
         try {
@@ -16,12 +16,14 @@ public class Database {
                 String data = fileScanner.nextLine();
                 String[] splitData = data.split(",");
                 if (splitData[0].equalsIgnoreCase(lastname)) {
-                    String[] current = new String[3];
-                    current[0] = splitData[2];
-                    current[1] = splitData[3];
-                    String teacherName = splitData[6] + " " + splitData[7];
-                    current[2] = teacherName;
-                    result.add(current);
+                    if (busOption) {
+                        String current[] = {splitData[1], splitData[4]};
+                        result.add(current);
+                    } else {
+                        String teacherName = splitData[6] + " " + splitData[7];
+                        String[] current = {splitData[1], splitData[2], splitData[3], teacherName};
+                        result.add(current);
+                    }
                 }
             }
             return result;
@@ -80,25 +82,32 @@ public class Database {
                         continue;
                     }
                     if (splitStr.length == 2) {
-                        ArrayList<String[]> result = getGradeClassroomTeacher(splitStr[1]);
+                        ArrayList<String[]> result = StudentCmd(splitStr[1], false);
                         assert result != null;
                         for (String[] student : result) {
-                            System.out.println("Student last name: " + splitStr[1]);
-                            System.out.println("Student grade: " + student[0]);
-                            System.out.println("Student classroom: " + student[1]);
-                            System.out.println("Student teacher: " + student[2]);
+                            System.out.println("Student last name: " + splitStr[1].toUpperCase());
+                            System.out.println("Student first name: " + student[0]);
+                            System.out.println("Student grade: " + student[1]);
+                            System.out.println("Student classroom: " + student[2]);
+                            System.out.println("Student teacher: " + student[3]);
                             System.out.println();
                         }
                     }
                     //If Bus Number is included
-                    else if (splitStr.length == 3) {
-                        int busNo = Integer.parseInt(splitStr[2]);
-                        System.out.println("Bussy");    // Braeden what is this lmao
-                        if (busNo == 0) {
-                            System.out.println("Invalid Bus Number.");
-                        }
+                    else if (splitStr.length == 3 && (splitStr[2].equals("B") || splitStr[2].equals("Bus"))) {
+                            ArrayList<String[]> result = StudentCmd(splitStr[1], true);
+                            assert result != null;
+                            if (result.isEmpty()) {
+                                System.out.println("No entries found.");
+                                continue;
+                            }
+                            for (String[] student : result) {
+                                System.out.println("Student last name: " + splitStr[1].toUpperCase());
+                                System.out.println("Student first name: " + student[0]);
+                                System.out.println("Student bus route: " + student[1]);
+                            }
                     } else { //Call Function with bus number included
-                        System.out.println("Error - invalid number of arguments");
+                        System.out.println("Error - invalid arguments");
                     }
                     continue;
                 case "T":
