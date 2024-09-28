@@ -34,6 +34,27 @@ public class Database {
         }
         return null;
     }
+
+    public static ArrayList<String[]> Bus(String busNum) {
+        File datafile = new File("students.txt");
+        ArrayList<String[]> result = new ArrayList<>();
+        try {
+            Scanner fileScanner = new Scanner(datafile);
+            while (fileScanner.hasNext()) {
+                String data = fileScanner.nextLine();
+                String[] splitData = data.split(",");
+                if (splitData[4].equalsIgnoreCase(busNum)) {
+                        String[] current = {splitData[0], splitData[1], splitData[2], splitData[3]};
+                        result.add(current);
+                }
+            }
+            return result;
+        } catch (FileNotFoundException ex) {
+            System.out.println("Error opening file");
+        }
+        return null;
+    }
+
     public static double average(String grade) {
         File datafile = new File("students.txt");
         double avg = 0.0;
@@ -279,7 +300,25 @@ public class Database {
 
                     }
                     continue;
+                case "Bus":
+                case "B":
+                    if (splitStr.length != 2) {
+                        System.out.println("Invalid Arguments: Only bus number required.");
+                        continue;
+                    }
+                    ArrayList<String[]> res = Bus(splitStr[1]);
+                    for (String[] bus : res) {
+                        for (int i = 0; i < bus.length; i++) {
+                            System.out.print(bus[i]);
+                            if (i < bus.length - 1) {
+                                System.out.print(", ");
+                            }
+                        }
+                        System.out.println("");
 
+                    }
+
+                    continue;
                 default:
                     System.out.println("Error - Invalid command");
             }
