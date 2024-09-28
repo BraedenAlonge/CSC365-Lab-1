@@ -55,6 +55,26 @@ public class Database {
         return null;
     }
 
+    public static ArrayList<String[]> Teacher(String teacher) {
+        File datafile = new File("students.txt");
+        ArrayList<String[]> result = new ArrayList<>();
+        try {
+            Scanner fileScanner = new Scanner(datafile);
+            while (fileScanner.hasNext()) {
+                String data = fileScanner.nextLine();
+                String[] splitData = data.split(",");
+                if (splitData[6].equalsIgnoreCase(teacher)) {
+                    String[] current = {splitData[0], splitData[1]};
+                    result.add(current);
+                }
+            }
+            return result;
+        } catch (FileNotFoundException ex) {
+            System.out.println("Error opening file");
+        }
+        return null;
+    }
+
     public static double average(String grade) {
         File datafile = new File("students.txt");
         double avg = 0.0;
@@ -225,31 +245,23 @@ public class Database {
                     continue;
                 case "T":
                 case "Teacher":
-                    if (splitStr[1] == null) {
-                        System.out.println("Invalid Parameters: Student last name required.");
+                    if (splitStr.length != 2) {
+                        System.out.println("Invalid Arguments: Only teacher name required.");
                         continue;
                     }
-                    //Bus Option
-                    else if (splitStr[0].equals("B") || splitStr[0].equals("Bus")) {
-                        if (splitStr[1] == null) {
-                            System.out.println("Invalid Parameters: Bus number required.");
-                            continue;
+                    ArrayList<String[]> teachRes = Teacher(splitStr[1]);
+                    for (String[] teach : teachRes) {
+                        for (int i = 0; i < teach.length; i++) {
+                            System.out.print(teach[i]);
+                            if (i < teach.length - 1) {
+                                System.out.print(", ");
+                            }
                         }
+                        System.out.println("");
+
                     }
-                    //Grade Option
-                    else if (splitStr[0].equals("G") || splitStr[0].equals("Grade")) {
-                        if (splitStr[1] == null) {
-                            System.out.println("Invalid Parameters: Grade required.");
-                            continue;
-                        }
-                    }
-                    //Average Option
-                    else if (splitStr[0].equals("A") || splitStr[0].equals("Average")) {
-                        if (splitStr[1] == null) {
-                            System.out.println("Invalid Parameters: Grade required.");
-                            continue;
-                        }
-                    }
+
+                    continue;
                 case "G":
                 case "Grade":
                     if (splitStr.length < 2) {
