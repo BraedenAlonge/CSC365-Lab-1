@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Scanner;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 
 public class Database {
@@ -32,6 +34,33 @@ public class Database {
         }
         return null;
     }
+    public static double average(String grade) {
+        File datafile = new File("students.txt");
+        double avg = 0.0;
+        int count = 0;
+        try {
+            Scanner fileScanner = new Scanner(datafile);
+
+            while (fileScanner.hasNext()) {
+
+                String data = fileScanner.nextLine();
+                String[] splitData = data.split(",");
+                if (splitData[2].equalsIgnoreCase(grade)) {
+                    //Add gpa to avg, add 1 to count
+                    avg += Double.parseDouble(splitData[5]);
+                    count++;
+                }
+            }}
+        catch(FileNotFoundException ex){
+            System.out.println("Error opening file");
+            }
+        if (count == 0) {
+            return 0.0;
+        }
+        return avg / count;
+    }
+
+
     public static ArrayList<String[]> Grade(String grade, int option) {
         File datafile = new File("students.txt");
         ArrayList<String[]> result = new ArrayList<>();
@@ -232,6 +261,25 @@ public class Database {
 
 
                         continue;
+                case "A":
+                case "Average":
+                    if (splitStr.length != 2) {
+                        System.out.println("Invalid Parameters: Only grade required.");
+                    } else {
+                        double avg = average(splitStr[1]);
+                        String noEntry = "";
+                        BigDecimal avgRound = new BigDecimal(avg);
+                        avgRound = avgRound.setScale(2, RoundingMode.HALF_UP);  // Rounds to 2 decimal places
+                        if (avg == 0.00) {
+                            noEntry = " (No entries for this grade)";
+                        }
+
+                        System.out.println("Grade: " + splitStr[1]);
+                        System.out.println("Average GPA: " + avgRound + noEntry);
+
+                    }
+                    continue;
+
                 default:
                     System.out.println("Error - Invalid command");
             }
