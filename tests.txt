@@ -1,0 +1,146 @@
+// CSC-365
+// Braeden Alonge, Miro Haapalainen
+
+// Test Cases - requirement R4
+
+// Expected output: "WOOLERY,NOLAN,2,104,STEIB,GALE"
+S: WOOLERY
+
+// Expected output: "SWEDLUND,SHARRI,3,107,FAFARD,ROCIO"
+Student: SWEDLUND
+
+// Test Cases - requirement R5
+
+// Expected output: "OBREIN,STAN,52"
+S: OBREIN B
+
+// Expected output: "STERBACK,PETER,51"
+Student: STERBACK Bus
+
+// Test Cases - requirement R6
+
+// Expected output:
+// "STERBACK, PETER
+// FINCHMAN, MATHILDA
+// OBREIN, STAN
+// SAENPHIMMACHA, NUMBERS
+// BREVO, JANNETTE
+// BEAN, INGER
+// FEYEREISEN, WILFREDO
+// WERST, LEON
+// LAMKIN, TAMA"
+T: NISTENDIRK
+
+// Expected output:
+//"COOKUS,XUAN
+// ELHADDAD,SHANTE
+// SWEDLUND,SHARRI
+// CIGANEK,MANIE
+// COVINGTON,TOMAS
+// EARLY,TORY
+// LINHART,LELA"
+Teacher: FAFARD
+
+// Test Cases - Requirement R7
+
+// Expected output:
+//"CORKER,CARTER
+// IMMERMAN,DEVIN
+// RAPOSE,ALONZO
+// WORBINGTON,DEEDRA
+// OGAS,ERVIN
+// SPANICEK,KENDRA
+// GUICE,CODI
+// GLOR,HUNG
+// GUM,NOAH
+// MASSART,ELDON
+// NOVICK,ROLLAND
+// DURAND,CARLEE
+// BEX,TAMESHA
+// DELUNA,KRYSTAL
+// COMO,ZANDRA"
+G: 4
+
+// Expected output:
+//"SCHOENECKER,PHUONG
+// RACANELLO,NOEL
+// STERBACK,PETER
+// FINCHMAN,MATHILDA
+// ZAPPAVIGNA,ELLIOTT
+// OBREIN,STAN
+// CORONADO,DIMPLE
+// SAENPHIMMACHA,NUMBERS
+// BOYTER,WAN
+// BREVO,JANNETTE
+// CLECKLER,FLOY
+// KRAKE,VALENTIN
+// KEMERER,ROSETTA
+// BEAN,INGER
+// DEMARTINI,DEWAYNE
+// CREMEANS,RANDOLPH
+// FEYEREISEN,WILFREDO
+// WERST,LEON
+// LAMKIN,TAMA
+// KREESE,CARRIE
+// FRIEDSTROM,REED"
+Grade: 6
+
+// Test Cases - Requirement R8
+
+// Expected output:
+//"COOKUS, XUAN, 3, 107
+// ELHADDAD, SHANTE, 3, 107
+// IMMERMAN, DEVIN, 4, 105
+// OBREIN, STAN, 6, 111
+// CORONADO, DIMPLE, 6, 102
+// SARAO, DIEDRA, 2, 108
+// EARLY, TORY, 3, 107
+// KEMERER, ROSETTA, 6, 102"
+B: 52
+
+// Expected output:
+//"WOOLERY, NOLAN, 2, 104
+// STERBACK, PETER, 6, 111
+// LIBRANDI, TODD, 2, 108
+// RAPOSE, ALONZO, 4, 105
+// COVINGTON, TOMAS, 3, 107
+// MULLINGS, LEIGHANN, 2, 108
+// DURAND, CARLEE, 4, 101
+// FRIEDSTROM, REED, 6, 106"
+Bus: 51
+
+// Test Cases - Requirement R9
+
+// Expected output: "LAMKIN,TAMA,6,111,55,3.23,NISTENDIRK,NANCY"
+G: 6 H
+
+// Expected output: "IMMERMAN,DEVIN,4,105,52,2.78,HANTZ,JED"
+Grade: 4 L
+
+// Test Cases - Requirement R10
+
+// Expected output:
+// "Grade: 6
+// Average GPA: 2.98"
+A: 6
+
+// Expected output:
+// "Grade: 4
+//    Average GPA: 2.95"
+Average: 4
+
+// Test Cases - Requirement R11
+
+// Expected output:
+// "Students in grade 0: 0
+//    Students in grade 1: 2
+//    Students in grade 2: 13
+//    Students in grade 3: 9
+//    Students in grade 4: 15
+//    Students in grade 5: 0
+//    Students in grade 6: 21"
+I
+
+// Test Cases - Requirement R12
+// Expected output: Exits program
+Q
