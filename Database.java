@@ -208,8 +208,8 @@ public class Database {
                     }
                     continue;
                     // Student command
-                case "S":
-                case "Student":
+                case "S:":
+                case "Student:":
                     if (splitStr.length == 1 || splitStr[1] == null) {
                         System.out.println("Invalid Parameters: Student last name required.");
                         continue;
@@ -243,8 +243,8 @@ public class Database {
                         System.out.println("Error - invalid arguments");
                     }
                     continue;
-                case "T":
-                case "Teacher":
+                case "T:":
+                case "Teacher:":
                     if (splitStr.length != 2) {
                         System.out.println("Invalid Arguments: Only teacher name required.");
                         continue;
@@ -262,8 +262,8 @@ public class Database {
                     }
 
                     continue;
-                case "G":
-                case "Grade":
+                case "G:":
+                case "Grade:":
                     if (splitStr.length < 2) {
                         System.out.println("Invalid Parameters: Grade required.");
                         continue;
@@ -294,8 +294,8 @@ public class Database {
 
 
                         continue;
-                case "A":
-                case "Average":
+                case "A:":
+                case "Average:":
                     if (splitStr.length != 2) {
                         System.out.println("Invalid Parameters: Only grade required.");
                     } else {
@@ -312,8 +312,8 @@ public class Database {
 
                     }
                     continue;
-                case "Bus":
-                case "B":
+                case "Bus:":
+                case "B:":
                     if (splitStr.length != 2) {
                         System.out.println("Invalid Arguments: Only bus number required.");
                         continue;
