@@ -1,0 +1,15 @@
+// CSC-365
+// Braeden Alonge, Miro Haapalainen
+
+// Test Cases - requirement R4
+
+// Expected output: "WOOLERY,NOLAN,2,104,STEIB,GALE"
+S: WOOLERY
+
+// Expected output: "SWEDLUND,SHARRI,3,107,FAFARD,ROCIO"
+S: SWEDLUND
+
+// Test Cases - requirement R5
+
+// Expected output: ""
+S:

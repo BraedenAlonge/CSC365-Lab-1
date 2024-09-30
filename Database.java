@@ -26,7 +26,7 @@ public class Database {
         return true;
     }
 
-    public static ArrayList<String[]> StudentCmd(String lastname, boolean busOption, File datafile) {
+    public static ArrayList<String[]> Student(String lastname, boolean busOption, File datafile) {
 
         ArrayList<String[]> result = new ArrayList<>();
         try {
@@ -39,8 +39,7 @@ public class Database {
                         String current[] = {splitData[1], splitData[4]};
                         result.add(current);
                     } else {
-                        String teacherName = splitData[6] + " " + splitData[7];
-                        String[] current = {splitData[1], splitData[2], splitData[3], teacherName};
+                        String[] current = {splitData[1], splitData[2], splitData[3], splitData[6], splitData[7]};
                         result.add(current);
                     }
                 }
@@ -160,7 +159,6 @@ public class Database {
                     String[] splitData = data.split(",");
                     double newGpa = Double.parseDouble(splitData[5]);
                     if (splitData[2].equalsIgnoreCase(grade) && newGpa < gpa) {
-
                         String current[] = {splitData[0], splitData[1], splitData[2], splitData[3],
                                 splitData[4], splitData[5], splitData[6], splitData[7]};
                         if (result.isEmpty()) {
@@ -244,20 +242,17 @@ public class Database {
                         continue;
                     }
                     if (splitStr.length == 2) {
-                        ArrayList<String[]> result = StudentCmd(splitStr[1], false, datafile);
+                        ArrayList<String[]> result = Student(splitStr[1], false, datafile);
                         assert result != null;
                         for (String[] student : result) {
-                            System.out.println("Student last name: " + splitStr[1].toUpperCase());
-                            System.out.println("Student first name: " + student[0]);
-                            System.out.println("Student grade: " + student[1]);
-                            System.out.println("Student classroom: " + student[2]);
-                            System.out.println("Student teacher: " + student[3]);
-                            System.out.println();
+                            System.out.println(splitStr[1].toUpperCase()
+                            + "," + student[0] + "," + student[1] + "," + student[2] + ","
+                            + student[3] + "," + student[4]);
                         }
                     }
                     //If Bus Number is included
                     else if (splitStr.length == 3 && (splitStr[2].equals("B") || splitStr[2].equals("Bus"))) {
-                            ArrayList<String[]> result = StudentCmd(splitStr[1], true, datafile);
+                            ArrayList<String[]> result = Student(splitStr[1], true, datafile);
                             assert result != null;
                             if (result.isEmpty()) {
                                 System.out.println("No entries found.");
