@@ -7,10 +7,27 @@ import java.util.Scanner;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-
 public class Database {
-    public static ArrayList<String[]> StudentCmd(String lastname, boolean busOption) {
-        File datafile = new File("students.txt");
+
+    public static boolean checkFormat(String line) {
+        String[] splitLine = line.split(",");
+        for (int i = 0; i < splitLine.length; i++) {
+            if (i >= 2 && i <= 5) {
+                try {
+                    Double.parseDouble(splitLine[i]);
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+            }
+            if (i > 7) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static ArrayList<String[]> StudentCmd(String lastname, boolean busOption, File datafile) {
+
         ArrayList<String[]> result = new ArrayList<>();
         try {
             Scanner fileScanner = new Scanner(datafile);
@@ -35,8 +52,7 @@ public class Database {
         return null;
     }
 
-    public static ArrayList<String[]> Bus(String busNum) {
-        File datafile = new File("students.txt");
+    public static ArrayList<String[]> Bus(String busNum, File datafile) {
         ArrayList<String[]> result = new ArrayList<>();
         try {
             Scanner fileScanner = new Scanner(datafile);
@@ -55,8 +71,7 @@ public class Database {
         return null;
     }
 
-    public static ArrayList<String[]> Teacher(String teacher) {
-        File datafile = new File("students.txt");
+    public static ArrayList<String[]> Teacher(String teacher, File datafile) {
         ArrayList<String[]> result = new ArrayList<>();
         try {
             Scanner fileScanner = new Scanner(datafile);
@@ -75,8 +90,7 @@ public class Database {
         return null;
     }
 
-    public static double average(String grade) {
-        File datafile = new File("students.txt");
+    public static double average(String grade, File datafile) {
         double avg = 0.0;
         int count = 0;
         try {
@@ -102,8 +116,7 @@ public class Database {
     }
 
 
-    public static ArrayList<String[]> Grade(String grade, int option) {
-        File datafile = new File("students.txt");
+    public static ArrayList<String[]> Grade(String grade, int option, File datafile) {
         ArrayList<String[]> result = new ArrayList<>();
         try {
             Scanner fileScanner = new Scanner(datafile);
@@ -166,8 +179,7 @@ public class Database {
         return null;
     }
 
-    public static int totalNumberOfStudentsInGrade(int grade) {
-        File datafile = new File("students.txt");
+    public static int totalNumberOfStudentsInGrade(int grade, File datafile) {
         int count = 0;
         try {
             Scanner fileScanner = new Scanner(datafile);
@@ -181,6 +193,7 @@ public class Database {
             return count;
         } catch (FileNotFoundException e) {
             System.out.println("Error occurred opening file");
+            System.exit(0);
         }
         return -1;
     }
@@ -188,6 +201,22 @@ public class Database {
 
 
     public static void main(String[] args) {
+        File datafile = new File("students.txt");
+        try {
+            Scanner fileChecker = new Scanner(datafile);
+            while (fileChecker.hasNext()) {
+                String data = fileChecker.nextLine();
+                if (!checkFormat(data)) {
+                    System.out.println("Error - invalid file format");
+                    System.exit(0);
+                }
+
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Error occurred opening file");
+            System.exit(0);
+        }
         Scanner inputScanner = new Scanner(System.in);
         String inputString = "";
         while (true) {
@@ -204,7 +233,7 @@ public class Database {
                 case "I":
                 case "Info":
                     for (int i = 0; i < 7; i++) {
-                        System.out.println("Students in grade " + i + ": " + totalNumberOfStudentsInGrade(i));
+                        System.out.println("Students in grade " + i + ": " + totalNumberOfStudentsInGrade(i, datafile));
                     }
                     continue;
                     // Student command
@@ -215,7 +244,7 @@ public class Database {
                         continue;
                     }
                     if (splitStr.length == 2) {
-                        ArrayList<String[]> result = StudentCmd(splitStr[1], false);
+                        ArrayList<String[]> result = StudentCmd(splitStr[1], false, datafile);
                         assert result != null;
                         for (String[] student : result) {
                             System.out.println("Student last name: " + splitStr[1].toUpperCase());
@@ -228,7 +257,7 @@ public class Database {
                     }
                     //If Bus Number is included
                     else if (splitStr.length == 3 && (splitStr[2].equals("B") || splitStr[2].equals("Bus"))) {
-                            ArrayList<String[]> result = StudentCmd(splitStr[1], true);
+                            ArrayList<String[]> result = StudentCmd(splitStr[1], true, datafile);
                             assert result != null;
                             if (result.isEmpty()) {
                                 System.out.println("No entries found.");
@@ -249,7 +278,7 @@ public class Database {
                         System.out.println("Invalid Arguments: Only teacher name required.");
                         continue;
                     }
-                    ArrayList<String[]> teachRes = Teacher(splitStr[1]);
+                    ArrayList<String[]> teachRes = Teacher(splitStr[1], datafile);
                     for (String[] teach : teachRes) {
                         for (int i = 0; i < teach.length; i++) {
                             System.out.print(teach[i]);
@@ -280,7 +309,7 @@ public class Database {
                         }
 
                     }
-                    ArrayList<String[]> result = Grade(splitStr[1], option);
+                    ArrayList<String[]> result = Grade(splitStr[1], option, datafile);
                     for (String[] grade : result) {
                         for (int i = 0; i < grade.length; i++) {
                             System.out.print(grade[i]);
@@ -299,7 +328,7 @@ public class Database {
                     if (splitStr.length != 2) {
                         System.out.println("Invalid Parameters: Only grade required.");
                     } else {
-                        double avg = average(splitStr[1]);
+                        double avg = average(splitStr[1], datafile);
                         String noEntry = "";
                         BigDecimal avgRound = new BigDecimal(avg);
                         avgRound = avgRound.setScale(2, RoundingMode.HALF_UP);  // Rounds to 2 decimal places
@@ -318,7 +347,7 @@ public class Database {
                         System.out.println("Invalid Arguments: Only bus number required.");
                         continue;
                     }
-                    ArrayList<String[]> res = Bus(splitStr[1]);
+                    ArrayList<String[]> res = Bus(splitStr[1], datafile);
                     for (String[] bus : res) {
                         for (int i = 0; i < bus.length; i++) {
                             System.out.print(bus[i]);
