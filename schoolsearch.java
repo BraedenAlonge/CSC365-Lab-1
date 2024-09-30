@@ -87,7 +87,7 @@ public class schoolsearch {
         return null;
     }
 
-    public static double average(String grade, File datafile) {
+    public static double Average(String grade, File datafile) {
         double avg = 0.0;
         int count = 0;
         try {
@@ -321,7 +321,7 @@ public class schoolsearch {
                     if (splitStr.length != 2) {
                         System.out.println("Invalid Parameters: Only grade required.");
                     } else {
-                        double avg = average(splitStr[1], datafile);
+                        double avg = Average(splitStr[1], datafile);
                         String noEntry = "";
                         BigDecimal avgRound = new BigDecimal(avg);
                         avgRound = avgRound.setScale(2, RoundingMode.HALF_UP);  // Rounds to 2 decimal places
