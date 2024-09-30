@@ -1,13 +1,11 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Locale;
 import java.util.Scanner;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class Database {
+public class schoolsearch {
 
     public static boolean checkFormat(String line) {
         String[] splitLine = line.split(",");
