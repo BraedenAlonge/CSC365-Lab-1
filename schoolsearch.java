@@ -1,5 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.math.BigDecimal;
@@ -310,7 +309,7 @@ public class schoolsearch {
                         for (int i = 0; i < grade.length; i++) {
                             System.out.print(grade[i]);
                             if (i < grade.length - 1) {
-                                System.out.print(", ");
+                                System.out.print(",");
                             }
                         }
                         System.out.println("");

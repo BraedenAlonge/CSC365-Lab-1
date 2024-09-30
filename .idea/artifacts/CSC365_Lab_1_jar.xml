@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CSC365-Lab-1:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CSC365_Lab_1_jar</output-path>
+    <root id="archive" name="CSC365-Lab-1.jar">
+      <element id="module-output" name="CSC365-Lab-1" />
+      <element id="library" level="module" name="JUnit4" module-name="CSC365-Lab-1" />
+    </root>
+  </artifact>
+</component>
