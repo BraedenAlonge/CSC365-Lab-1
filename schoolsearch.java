@@ -7,6 +7,8 @@ import java.math.RoundingMode;
 
 public class schoolsearch {
 
+
+
     public static boolean checkFormat(String line) {
         String[] splitLine = line.split(",");
         for (int i = 0; i < splitLine.length; i++) {
@@ -197,6 +199,7 @@ public class schoolsearch {
 
 
     public static void main(String[] args) {
+        Database db = new Database();
         File datafile = new File("students.txt");
         try {
             Scanner fileChecker = new Scanner(datafile);
