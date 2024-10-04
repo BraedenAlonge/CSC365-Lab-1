@@ -104,3 +104,20 @@ Students in grade 5: 0
 Students in grade 6: 21
 Please select: [S,T,B,G,A,I, or Q]. 
 Exiting Program...
+
+Please select: [S,T,B,G,A,I, or Q].
+STERBACK, PETER
+FINCHMAN, MATHILDA
+OBREIN, STAN
+SAENPHIMMACHA, NUMBERS
+BREVO, JANNETTE
+BEAN, INGER
+FEYEREISEN, WILFREDO
+WERST, LEON
+LAMKIN, TAMA
+Please select: [S,T,B,G,A,I, or Q].
+NISTENDIRK, NANCY
+
+// Test Cases - Requirement NR5
+// Expected output: ""
+

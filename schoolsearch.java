@@ -25,11 +25,12 @@ public class schoolsearch {
         return true;
     }
 
-    public static ArrayList<String[]> Student(String lastname, boolean busOption, File datafile) {
+    // Student takes in LIST FILE, TEACHER FILE
+    public static ArrayList<String[]> Student(String lastname, boolean busOption, File listFile, File teacherFile) {
 
         ArrayList<String[]> result = new ArrayList<>();
         try {
-            Scanner fileScanner = new Scanner(datafile);
+            Scanner fileScanner = new Scanner(listFile);
             while (fileScanner.hasNext()) {
                 String data = fileScanner.nextLine();
                 String[] splitData = data.split(",");
@@ -38,7 +39,24 @@ public class schoolsearch {
                         String current[] = {splitData[1], splitData[4]};
                         result.add(current);
                     } else {
-                        String[] current = {splitData[1], splitData[2], splitData[3], splitData[6], splitData[7]};
+                        String teacherLastName = "NULL";
+                        String teacherFirstName = "NULL";
+                        try {
+                            Scanner teacherScanner = new Scanner(teacherFile);
+                            while (teacherScanner.hasNext()) {
+                                String teacherData = teacherScanner.nextLine();
+                                String[] splitTeacherData = teacherData.split(",");
+                                if (splitTeacherData[2].equals(splitData[3])) {
+                                    teacherLastName = splitTeacherData[0];
+                                    teacherFirstName = splitTeacherData[1];
+                                    break;
+                                }
+                            }
+                        } catch (FileNotFoundException e) {
+                            System.out.println("ERROR - teachers file not found");
+                            System.exit(0);
+                        }
+                        String[] current = {splitData[1], splitData[2], splitData[3], teacherLastName, teacherFirstName};
                         result.add(current);
                     }
                 }
@@ -49,7 +67,7 @@ public class schoolsearch {
         }
         return null;
     }
-    //Bus takes in STUDENT FILE
+    //Bus takes in LIST FILE
     public static ArrayList<String[]> Bus(String busNum, File datafile) {
         ArrayList<String[]> result = new ArrayList<>();
         try {
@@ -69,20 +87,39 @@ public class schoolsearch {
         return null;
     }
 
-    //Classroom takes in STUDENT FILE
-    public static ArrayList<String[]> Classroom(String classNum, File datafile) {
+    //ClassroomTeacher takes in TEACHER FILE
+    public static ArrayList<String[]> ClassroomTeacher(String classNum, File teacherFile) {
         ArrayList<String[]> result = new ArrayList<>();
         try {
-            Scanner fileScanner = new Scanner(datafile);
+            Scanner fileScanner = new Scanner(teacherFile);
             while (fileScanner.hasNext()) {
                 String data = fileScanner.nextLine();
                 String[] splitData = data.split(",");
-                if (splitData[3].equalsIgnoreCase(classNum)) {
-                    System.out.println("What the eeeeee file");
-
+                if (splitData[2].equalsIgnoreCase(classNum)) {
                     String[] current = {splitData[0], splitData[1]};
                     result.add(current);
                 }
+            }
+            return result;
+        } catch (FileNotFoundException ex) {
+            System.out.println("Error opening file");
+        }
+        return null;
+    }
+
+
+    //Classroom takes in LIST FILE
+    public static ArrayList<String[]> Classroom(String classNum, File listFile) {
+        ArrayList<String[]> result = new ArrayList<>();
+        try {
+            Scanner fileScanner = new Scanner(listFile);
+            while (fileScanner.hasNext()) {
+                String data = fileScanner.nextLine();
+                String[] splitData = data.split(",");
+                    if (splitData[3].equalsIgnoreCase(classNum)) {
+                        String[] current = {splitData[0], splitData[1]};
+                        result.add(current);
+                    }
             }
             return result;
         } catch (FileNotFoundException ex) {
@@ -143,6 +180,24 @@ public class schoolsearch {
         return avg / count;
     }
 
+    // Enrollments takes in LIST FILE
+    public static int Enrollments(File listFile, String classroom) {
+        int result = 0;
+        try {
+            Scanner fileScanner = new Scanner(listFile);
+            while (fileScanner.hasNext()) {
+                String data = fileScanner.nextLine();
+                String[] splitData = data.split(",");
+                if (splitData[3].equals(classroom)) {
+                    ++result;
+                }
+            }
+            return result;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     //Grade takes in LIST FILE, TEACHER FILE
     public static ArrayList<String[]> Grade(String grade, int option, File listFile, File teacherFile) {
         ArrayList<String[]> result = new ArrayList<>();
@@ -155,7 +210,7 @@ public class schoolsearch {
                     String[] splitData = data.split(",");
                     if (splitData[2].equalsIgnoreCase(grade)) {
 
-                        String current[] = {splitData[0], splitData[1]};
+                        String[] current = {splitData[0], splitData[1]};
                         result.add(current);
 
                         }
@@ -169,16 +224,16 @@ public class schoolsearch {
                     String[] splitData = data.split(",");
                     double newGpa = Double.parseDouble(splitData[5]);
                     if (splitData[2].equalsIgnoreCase(grade) && newGpa > gpa) {
-                        String teacherFirstName = "NULL";
                         String teacherLastName = "NULL";
+                        String teacherFirstName = "NULL";
                         try {
                             Scanner teacherScanner = new Scanner(teacherFile);
                             while (teacherScanner.hasNext()) {
                                 String teacherData = teacherScanner.nextLine();
                                 String[] splitTeacherData = teacherData.split(",");
                                 if (splitTeacherData[2].equals(splitData[3])) {
-                                    teacherFirstName = splitTeacherData[0];
-                                    teacherLastName = splitTeacherData[1];
+                                    teacherLastName = splitTeacherData[0];
+                                    teacherFirstName = splitTeacherData[1];
                                     break;
                                 }
                             }
@@ -186,8 +241,8 @@ public class schoolsearch {
                             System.out.println("ERROR - teachers file not found");
                             System.exit(0);
                         }
-                        String current[] = {splitData[0], splitData[1], splitData[2], splitData[3],
-                                            splitData[4], splitData[5], teacherFirstName, teacherLastName};
+                        String[] current = {splitData[0], splitData[1], splitData[2], splitData[3],
+                                            splitData[4], splitData[5], teacherLastName, teacherFirstName};
                         if (result.isEmpty()) {
                             result.add(current);  // Add the first element
                         } else {
@@ -204,16 +259,16 @@ public class schoolsearch {
                     String[] splitData = data.split(",");
                     double newGpa = Double.parseDouble(splitData[5]);
                     if (splitData[2].equalsIgnoreCase(grade) && newGpa < gpa) {
-                        String teacherFirstName = "NULL";
                         String teacherLastName = "NULL";
+                        String teacherFirstName = "NULL";
                         try {
                             Scanner teacherScanner = new Scanner(teacherFile);
                             while (teacherScanner.hasNext()) {
                                 String teacherData = teacherScanner.nextLine();
                                 String[] splitTeacherData = teacherData.split(",");
                                 if (splitTeacherData[2].equals(splitData[3])) {
-                                    teacherFirstName = splitTeacherData[0];
-                                    teacherLastName = splitTeacherData[1];
+                                    teacherLastName = splitTeacherData[0];
+                                    teacherFirstName = splitTeacherData[1];
                                     break;
                                 }
                             }
@@ -222,7 +277,7 @@ public class schoolsearch {
                             System.exit(0);
                         }
                         String current[] = {splitData[0], splitData[1], splitData[2], splitData[3],
-                                splitData[4], splitData[5], teacherFirstName, teacherLastName};
+                                splitData[4], splitData[5], teacherLastName, teacherFirstName};
                         if (result.isEmpty()) {
                             result.add(current);  // Add the first element
                         } else {
@@ -230,8 +285,27 @@ public class schoolsearch {
                         }                        gpa = newGpa;
                     }
                 }
+            } else if (option == 4) {
+                Scanner teacherScanner = new Scanner(teacherFile);
+                while (teacherScanner.hasNext()) {
+                    Scanner studentScanner = new Scanner(listFile);
+                    boolean teachesGrade = false;
+                    String teacherData = teacherScanner.nextLine();
+                    String[] splitTeacherData = teacherData.split(",");
+                    while (studentScanner.hasNext()) {
+                        String studentData = studentScanner.nextLine();
+                        String[] splitStudentData = studentData.split(",");
+                        if (splitStudentData[2].equals(grade) &&
+                                splitStudentData[3].equals(splitTeacherData[2])) {
+                            teachesGrade = true;
+                        }
+                    }
+                    if (teachesGrade) {
+                        String[] current = {splitTeacherData[0], splitTeacherData[1]};
+                        result.add(current);
+                    }
+                }
             }
-
             return result;
         } catch (FileNotFoundException ex) {
             System.out.println("Error opening file");
@@ -256,6 +330,47 @@ public class schoolsearch {
             System.exit(0);
         }
         return -1;
+    }
+
+    // CompareGpaTo takes in LIST FILE, TEACHER FILE
+    public static ArrayList<String[]> compareGpaTo(int option, File listFile, File teacherFile) {
+        ArrayList<String[]> result = new ArrayList<>();
+        try {
+            Scanner fileScanner = new Scanner(listFile);
+            while (fileScanner.hasNext()) {
+                String data = fileScanner.nextLine();
+                String[] splitData = data.split(",");
+                String[] current = new String[3];
+                switch(option) {
+                    // Grade
+                    case 1: {
+                        current = new String[] {splitData[5], splitData[2]};
+                        break;
+                    }
+                    // Bus Route
+                    case 2: {
+                        current = new String[] {splitData[5], splitData[4]};
+                        break;
+                    }
+                    // Teacher
+                    case 3: {
+                        Scanner teacherScanner = new Scanner(teacherFile);
+                        while (teacherScanner.hasNext()) {
+                            String teacherData = teacherScanner.nextLine();
+                            String[] splitTeacherData = teacherData.split(",");
+                            if (splitTeacherData[2].equals(splitData[3])) {
+                                current = new String[] {splitData[5], splitTeacherData[0], splitTeacherData[1]};
+                            }
+                        }
+                        break;
+                    }
+                }
+                result.add(current);
+            }
+            return result;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -318,8 +433,12 @@ public class schoolsearch {
                         continue;
                     }
                     if (splitStr.length == 2) {
-                        ArrayList<String[]> result = Student(splitStr[1], false, listFile);
+                        ArrayList<String[]> result = Student(splitStr[1], false, listFile, teacherFile);
                         assert result != null;
+                        if (result.isEmpty()) {
+                            System.out.println("No results found.");
+                            continue;
+                        }
                         for (String[] student : result) {
                             System.out.println(splitStr[1].toUpperCase()
                             + "," + student[0] + "," + student[1] + "," + student[2] + ","
@@ -328,7 +447,7 @@ public class schoolsearch {
                     }
                     //If Bus Number is included
                     else if (splitStr.length == 3 && (splitStr[2].equals("B") || splitStr[2].equals("Bus"))) {
-                            ArrayList<String[]> result = Student(splitStr[1], true, listFile);
+                            ArrayList<String[]> result = Student(splitStr[1], true, listFile, teacherFile);
                             assert result != null;
                             if (result.isEmpty()) {
                                 System.out.println("No entries found.");
@@ -368,7 +487,7 @@ public class schoolsearch {
                         System.out.println("Invalid Parameters: Grade required.");
                         continue;
                     }
-                    //Option 1: No 2nd param;   Option 2: High;   Option 3: Low
+                    //Option 1: No 2nd param;   Option 2: High;   Option 3: Low; Option 4: Teacher
                     int option = 1;
 
                     if (splitStr.length > 2) {
@@ -377,6 +496,9 @@ public class schoolsearch {
                         }
                         else if (splitStr[2].equals("L") || splitStr[2].equals("Low")) {
                             option = 3;
+                        }
+                        else if (splitStr[2].equals("T") || splitStr[2].equals("Teacher")) {
+                            option = 4;
                         }
 
                     }
@@ -412,6 +534,27 @@ public class schoolsearch {
 
                     }
                     continue;
+                case "Analytics:":
+                case "Al:":
+                    if (splitStr.length != 2) {
+                        System.out.println("Invalid parameters: option required");
+                    } else {
+                        try {
+                            int analyticsOption = Integer.parseInt(splitStr[1]);
+                            ArrayList<String[]> analyticsResult = compareGpaTo(analyticsOption, listFile, teacherFile);
+                            for (String[] analytics : analyticsResult) {
+                                if (analytics.length == 2) {
+                                    System.out.println(analytics[0] + "," + analytics[1]);
+                                } else {
+                                    System.out.println(analytics[0] + "," + analytics[1] + "," + analytics[2]);
+
+                                }
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid option");
+                        }
+                    }
+                    continue;
                 case "Bus:":
                 case "B:":
                     if (splitStr.length != 2) {
@@ -431,25 +574,46 @@ public class schoolsearch {
                     }
 
                     continue;
+                case "Enrollments":
+                case "E":
+                    for (int classroom = 101; classroom <= 112; ++classroom) {
+                        System.out.print("Classroom: " + classroom + "; ");
+                        System.out.println("Enrollments: " + Enrollments(listFile, Integer.toString(classroom)));
+                    }
                 case "Classroom:":
                 case "C:":
-                    if (splitStr.length != 2) {
-                        System.out.println("Invalid Arguments: Only bus number required.");
+                    if (splitStr.length < 2) {
+                        System.out.println("Invalid Arguments.");
                         continue;
                     }
-                    ArrayList<String[]> cr = Classroom(splitStr[1], listFile);
-                    for (String[] cls : cr) {
-                        for (int i = 0; i < cls.length; i++) {
-                            System.out.print(cls[i]);
-                            if (i < cls.length - 1) {
-                                System.out.print(", ");
+                    if (splitStr.length == 2) {
+                        ArrayList<String[]> cr = Classroom(splitStr[1], listFile);
+                        for (String[] cls : cr) {
+                            for (int i = 0; i < cls.length; i++) {
+                                System.out.print(cls[i]);
+                                if (i < cls.length - 1) {
+                                    System.out.print(", ");
+                                }
                             }
+                            System.out.println("");
                         }
-                        System.out.println("");
-
+                        continue;
                     }
-
-                    continue;
+                    if (splitStr.length == 3) {
+                        if (splitStr[2].equals("T")) {
+                            ArrayList<String[]> cr = ClassroomTeacher(splitStr[1], teacherFile);
+                            for (String[] cls : cr) {
+                                for (int i = 0; i < cls.length; i++) {
+                                    System.out.print(cls[i]);
+                                    if (i < cls.length - 1) {
+                                        System.out.print(", ");
+                                    }
+                                }
+                                System.out.println("");
+                            }
+                            continue;
+                        }
+                    }
                 default:
                     System.out.println("Error - Invalid command");
             }
