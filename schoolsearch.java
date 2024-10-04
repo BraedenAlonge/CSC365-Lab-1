@@ -49,7 +49,7 @@ public class schoolsearch {
         }
         return null;
     }
-
+    //Bus takes in STUDENT FILE
     public static ArrayList<String[]> Bus(String busNum, File datafile) {
         ArrayList<String[]> result = new ArrayList<>();
         try {
@@ -69,7 +69,29 @@ public class schoolsearch {
         return null;
     }
 
-    public static ArrayList<String[]> Teacher(String teacher, File datafile) {
+    //Classroom takes in STUDENT FILE
+    public static ArrayList<String[]> Classroom(String classNum, File datafile) {
+        ArrayList<String[]> result = new ArrayList<>();
+        try {
+            Scanner fileScanner = new Scanner(datafile);
+            while (fileScanner.hasNext()) {
+                String data = fileScanner.nextLine();
+                String[] splitData = data.split(",");
+                if (splitData[3].equalsIgnoreCase(classNum)) {
+                    System.out.println("What the eeeeee file");
+
+                    String[] current = {splitData[0], splitData[1]};
+                    result.add(current);
+                }
+            }
+            return result;
+        } catch (FileNotFoundException ex) {
+            System.out.println("Error opening file");
+        }
+        return null;
+    }
+    // Teacher takes in LIST FILE, TEACHER FILE
+    public static ArrayList<String[]> Teacher(String teacher, File listFile, File teacherFile) {
         ArrayList<String[]> result = new ArrayList<>();
         try {
             Scanner fileScanner = new Scanner(datafile);
@@ -87,8 +109,8 @@ public class schoolsearch {
         }
         return null;
     }
-
-    public static double Average(String grade, File datafile) {
+    //Average takes in LIST FILE
+    public static double Average(String grade, File listFile) {
         double avg = 0.0;
         int count = 0;
         try {
@@ -175,8 +197,8 @@ public class schoolsearch {
         }
         return null;
     }
-
-    public static int totalNumberOfStudentsInGrade(int grade, File datafile) {
+    //Info takes in STUDENT FILE
+    public static int Info(int grade, File datafile) {
         int count = 0;
         try {
             Scanner fileScanner = new Scanner(datafile);
@@ -198,22 +220,34 @@ public class schoolsearch {
 
 
     public static void main(String[] args) {
-        Database db = new Database();
-        File datafile = new File("students.txt");
+       // File datafile = new File("students.txt");
+        File listFile = new File("list.txt");
+        File teacherFile = new File("teachers.txt");
         try {
-            Scanner fileChecker = new Scanner(datafile);
-            while (fileChecker.hasNext()) {
-                String data = fileChecker.nextLine();
+            Scanner fileChecker1 = new Scanner(listFile);
+            while (fileChecker1.hasNext()) {
+                String data = fileChecker1.nextLine();
                 if (!checkFormat(data)) {
                     System.out.println("Error - invalid file format");
-                    System.exit(0);
+                    System.exit(1);
                 }
-
             }
-
         } catch (FileNotFoundException e) {
-            System.out.println("Error occurred opening file");
-            System.exit(0);
+            System.out.println("Error occurred opening file: Student File");
+            System.exit(1);
+        }
+        try {
+            Scanner fileChecker2 = new Scanner(teacherFile);
+            while (fileChecker2.hasNext()) {
+                String data = fileChecker2.nextLine();
+                if (!checkFormat(data)) {
+                    System.out.println("Error - invalid file format");
+                    System.exit(1);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error occurred opening file: Teacher File");
+            System.exit(1);
         }
         Scanner inputScanner = new Scanner(System.in);
         String inputString = "";
@@ -227,7 +261,8 @@ public class schoolsearch {
                 case "Q":
                 case "Quit":
                     System.out.println("Exiting Program...");
-                    return;                // Info command
+                    return;
+                // Info command
                 case "I":
                 case "Info":
                     for (int i = 0; i < 7; i++) {
@@ -347,6 +382,25 @@ public class schoolsearch {
                         for (int i = 0; i < bus.length; i++) {
                             System.out.print(bus[i]);
                             if (i < bus.length - 1) {
+                                System.out.print(", ");
+                            }
+                        }
+                        System.out.println("");
+
+                    }
+
+                    continue;
+                case "Classroom:":
+                case "C:":
+                    if (splitStr.length != 2) {
+                        System.out.println("Invalid Arguments: Only bus number required.");
+                        continue;
+                    }
+                    ArrayList<String[]> cr = Classroom(splitStr[1], listFile);
+                    for (String[] cls : cr) {
+                        for (int i = 0; i < cls.length; i++) {
+                            System.out.print(cls[i]);
+                            if (i < cls.length - 1) {
                                 System.out.print(", ");
                             }
                         }

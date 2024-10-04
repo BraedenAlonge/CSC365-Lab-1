@@ -1,15 +1,106 @@
-// CSC-365
-// Braeden Alonge, Miro Haapalainen
-
-// Test Cases - requirement R4
-
-// Expected output: "WOOLERY,NOLAN,2,104,STEIB,GALE"
-S: WOOLERY
-
-// Expected output: "SWEDLUND,SHARRI,3,107,FAFARD,ROCIO"
-S: SWEDLUND
-
-// Test Cases - requirement R5
-
-// Expected output: ""
-S:
+Please select: [S,T,B,G,A,I, or Q]. 
+WOOLERY,NOLAN,2,104,STEIB,GALE
+Please select: [S,T,B,G,A,I, or Q]. 
+SWEDLUND,SHARRI,3,107,FAFARD,ROCIO
+Please select: [S,T,B,G,A,I, or Q]. 
+Student last name: OBREIN
+Student first name: STAN
+Student bus route: 52
+Please select: [S,T,B,G,A,I, or Q]. 
+Student last name: STERBACK
+Student first name: PETER
+Student bus route: 51
+Please select: [S,T,B,G,A,I, or Q]. 
+STERBACK, PETER
+FINCHMAN, MATHILDA
+OBREIN, STAN
+SAENPHIMMACHA, NUMBERS
+BREVO, JANNETTE
+BEAN, INGER
+FEYEREISEN, WILFREDO
+WERST, LEON
+LAMKIN, TAMA
+Please select: [S,T,B,G,A,I, or Q]. 
+COOKUS, XUAN
+ELHADDAD, SHANTE
+SWEDLUND, SHARRI
+CIGANEK, MANIE
+COVINGTON, TOMAS
+EARLY, TORY
+LINHART, LELA
+Please select: [S,T,B,G,A,I, or Q]. 
+CORKER,CARTER
+IMMERMAN,DEVIN
+RAPOSE,ALONZO
+WORBINGTON,DEEDRA
+OGAS,ERVIN
+SPANICEK,KENDRA
+GUICE,CODI
+GLOR,HUNG
+GUM,NOAH
+MASSART,ELDON
+NOVICK,ROLLAND
+DURAND,CARLEE
+BEX,TAMESHA
+DELUNA,KRYSTAL
+COMO,ZANDRA
+Please select: [S,T,B,G,A,I, or Q]. 
+SCHOENECKER,PHUONG
+RACANELLO,NOEL
+STERBACK,PETER
+FINCHMAN,MATHILDA
+ZAPPAVIGNA,ELLIOTT
+OBREIN,STAN
+CORONADO,DIMPLE
+SAENPHIMMACHA,NUMBERS
+BOYTER,WAN
+BREVO,JANNETTE
+CLECKLER,FLOY
+KRAKE,VALENTIN
+KEMERER,ROSETTA
+BEAN,INGER
+DEMARTINI,DEWAYNE
+CREMEANS,RANDOLPH
+FEYEREISEN,WILFREDO
+WERST,LEON
+LAMKIN,TAMA
+KREESE,CARRIE
+FRIEDSTROM,REED
+Please select: [S,T,B,G,A,I, or Q]. 
+COOKUS, XUAN, 3, 107
+ELHADDAD, SHANTE, 3, 107
+IMMERMAN, DEVIN, 4, 105
+OBREIN, STAN, 6, 111
+CORONADO, DIMPLE, 6, 102
+SARAO, DIEDRA, 2, 108
+EARLY, TORY, 3, 107
+KEMERER, ROSETTA, 6, 102
+Please select: [S,T,B,G,A,I, or Q]. 
+WOOLERY, NOLAN, 2, 104
+STERBACK, PETER, 6, 111
+LIBRANDI, TODD, 2, 108
+RAPOSE, ALONZO, 4, 105
+COVINGTON, TOMAS, 3, 107
+MULLINGS, LEIGHANN, 2, 108
+DURAND, CARLEE, 4, 101
+FRIEDSTROM, REED, 6, 106
+Please select: [S,T,B,G,A,I, or Q]. 
+LAMKIN,TAMA,6,111,55,3.23,NISTENDIRK,NANCY
+Please select: [S,T,B,G,A,I, or Q]. 
+IMMERMAN,DEVIN,4,105,52,2.78,HANTZ,JED
+Please select: [S,T,B,G,A,I, or Q]. 
+Grade: 6
+Average GPA: 2.98
+Please select: [S,T,B,G,A,I, or Q]. 
+Grade: 4
+Average GPA: 2.95
+Please select: [S,T,B,G,A,I, or Q]. 
+Students in grade 0: 0
+Students in grade 1: 2
+Students in grade 2: 13
+Students in grade 3: 9
+Students in grade 4: 15
+Students in grade 5: 0
+Students in grade 6: 21
+Please select: [S,T,B,G,A,I, or Q]. 
+Exiting Program...
