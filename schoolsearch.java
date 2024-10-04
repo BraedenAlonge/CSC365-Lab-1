@@ -94,13 +94,21 @@ public class schoolsearch {
     public static ArrayList<String[]> Teacher(String teacher, File listFile, File teacherFile) {
         ArrayList<String[]> result = new ArrayList<>();
         try {
-            Scanner fileScanner = new Scanner(datafile);
-            while (fileScanner.hasNext()) {
-                String data = fileScanner.nextLine();
+            Scanner teacherScanner = new Scanner(teacherFile);
+            while (teacherScanner.hasNext()) {
+                String data = teacherScanner.nextLine();
                 String[] splitData = data.split(",");
-                if (splitData[6].equalsIgnoreCase(teacher)) {
-                    String[] current = {splitData[0], splitData[1]};
-                    result.add(current);
+                if (splitData[0].equalsIgnoreCase(teacher)) {
+                    String classroom = splitData[2];
+                    Scanner listScanner = new Scanner(listFile);
+                    while (listScanner.hasNext()) {
+                        String studentData = listScanner.nextLine();
+                        String[] splitStudentData = studentData.split(",");
+                        if (splitStudentData[3].equals(classroom)) {
+                            String[] current = {splitStudentData[0], splitStudentData[1]};
+                            result.add(current);
+                        }
+                    }
                 }
             }
             return result;
@@ -114,7 +122,7 @@ public class schoolsearch {
         double avg = 0.0;
         int count = 0;
         try {
-            Scanner fileScanner = new Scanner(datafile);
+            Scanner fileScanner = new Scanner(listFile);
 
             while (fileScanner.hasNext()) {
 
@@ -135,11 +143,11 @@ public class schoolsearch {
         return avg / count;
     }
 
-
-    public static ArrayList<String[]> Grade(String grade, int option, File datafile) {
+    //Grade takes in LIST FILE, TEACHER FILE
+    public static ArrayList<String[]> Grade(String grade, int option, File listFile, File teacherFile) {
         ArrayList<String[]> result = new ArrayList<>();
         try {
-            Scanner fileScanner = new Scanner(datafile);
+            Scanner fileScanner = new Scanner(listFile);
             if (option == 1) {
                 while (fileScanner.hasNext()) {
 
@@ -161,9 +169,25 @@ public class schoolsearch {
                     String[] splitData = data.split(",");
                     double newGpa = Double.parseDouble(splitData[5]);
                     if (splitData[2].equalsIgnoreCase(grade) && newGpa > gpa) {
-
+                        String teacherFirstName = "NULL";
+                        String teacherLastName = "NULL";
+                        try {
+                            Scanner teacherScanner = new Scanner(teacherFile);
+                            while (teacherScanner.hasNext()) {
+                                String teacherData = teacherScanner.nextLine();
+                                String[] splitTeacherData = teacherData.split(",");
+                                if (splitTeacherData[2].equals(splitData[3])) {
+                                    teacherFirstName = splitTeacherData[0];
+                                    teacherLastName = splitTeacherData[1];
+                                    break;
+                                }
+                            }
+                        } catch (FileNotFoundException e) {
+                            System.out.println("ERROR - teachers file not found");
+                            System.exit(0);
+                        }
                         String current[] = {splitData[0], splitData[1], splitData[2], splitData[3],
-                                            splitData[4], splitData[5], splitData[6], splitData[7]};
+                                            splitData[4], splitData[5], teacherFirstName, teacherLastName};
                         if (result.isEmpty()) {
                             result.add(current);  // Add the first element
                         } else {
@@ -180,8 +204,25 @@ public class schoolsearch {
                     String[] splitData = data.split(",");
                     double newGpa = Double.parseDouble(splitData[5]);
                     if (splitData[2].equalsIgnoreCase(grade) && newGpa < gpa) {
+                        String teacherFirstName = "NULL";
+                        String teacherLastName = "NULL";
+                        try {
+                            Scanner teacherScanner = new Scanner(teacherFile);
+                            while (teacherScanner.hasNext()) {
+                                String teacherData = teacherScanner.nextLine();
+                                String[] splitTeacherData = teacherData.split(",");
+                                if (splitTeacherData[2].equals(splitData[3])) {
+                                    teacherFirstName = splitTeacherData[0];
+                                    teacherLastName = splitTeacherData[1];
+                                    break;
+                                }
+                            }
+                        } catch (FileNotFoundException e) {
+                            System.out.println("ERROR - teachers file not found");
+                            System.exit(0);
+                        }
                         String current[] = {splitData[0], splitData[1], splitData[2], splitData[3],
-                                splitData[4], splitData[5], splitData[6], splitData[7]};
+                                splitData[4], splitData[5], teacherFirstName, teacherLastName};
                         if (result.isEmpty()) {
                             result.add(current);  // Add the first element
                         } else {
@@ -266,7 +307,7 @@ public class schoolsearch {
                 case "I":
                 case "Info":
                     for (int i = 0; i < 7; i++) {
-                        System.out.println("Students in grade " + i + ": " + totalNumberOfStudentsInGrade(i, datafile));
+                        System.out.println("Students in grade " + i + ": " + Info(i, listFile));
                     }
                     continue;
                     // Student command
@@ -277,7 +318,7 @@ public class schoolsearch {
                         continue;
                     }
                     if (splitStr.length == 2) {
-                        ArrayList<String[]> result = Student(splitStr[1], false, datafile);
+                        ArrayList<String[]> result = Student(splitStr[1], false, listFile);
                         assert result != null;
                         for (String[] student : result) {
                             System.out.println(splitStr[1].toUpperCase()
@@ -287,7 +328,7 @@ public class schoolsearch {
                     }
                     //If Bus Number is included
                     else if (splitStr.length == 3 && (splitStr[2].equals("B") || splitStr[2].equals("Bus"))) {
-                            ArrayList<String[]> result = Student(splitStr[1], true, datafile);
+                            ArrayList<String[]> result = Student(splitStr[1], true, listFile);
                             assert result != null;
                             if (result.isEmpty()) {
                                 System.out.println("No entries found.");
@@ -308,7 +349,7 @@ public class schoolsearch {
                         System.out.println("Invalid Arguments: Only teacher name required.");
                         continue;
                     }
-                    ArrayList<String[]> teachRes = Teacher(splitStr[1], datafile);
+                    ArrayList<String[]> teachRes = Teacher(splitStr[1], listFile, teacherFile);
                     for (String[] teach : teachRes) {
                         for (int i = 0; i < teach.length; i++) {
                             System.out.print(teach[i]);
@@ -339,7 +380,7 @@ public class schoolsearch {
                         }
 
                     }
-                    ArrayList<String[]> result = Grade(splitStr[1], option, datafile);
+                    ArrayList<String[]> result = Grade(splitStr[1], option, listFile, teacherFile);
                     for (String[] grade : result) {
                         for (int i = 0; i < grade.length; i++) {
                             System.out.print(grade[i]);
@@ -358,7 +399,7 @@ public class schoolsearch {
                     if (splitStr.length != 2) {
                         System.out.println("Invalid Parameters: Only grade required.");
                     } else {
-                        double avg = Average(splitStr[1], datafile);
+                        double avg = Average(splitStr[1], listFile);
                         String noEntry = "";
                         BigDecimal avgRound = new BigDecimal(avg);
                         avgRound = avgRound.setScale(2, RoundingMode.HALF_UP);  // Rounds to 2 decimal places
@@ -377,7 +418,7 @@ public class schoolsearch {
                         System.out.println("Invalid Arguments: Only bus number required.");
                         continue;
                     }
-                    ArrayList<String[]> res = Bus(splitStr[1], datafile);
+                    ArrayList<String[]> res = Bus(splitStr[1], listFile);
                     for (String[] bus : res) {
                         for (int i = 0; i < bus.length; i++) {
                             System.out.print(bus[i]);
